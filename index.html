@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            padding: 20px;
+            background-color: antiquewhite;
+        }
+        h1{
+            padding-top: 100px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+        .input-details{
+            display: flex;
+            /* padding: 20px; */
+        }
+        .input-details>input{
+            width: 95%;
+            height: 30px;
+        }
+        .checkboxes{
+            gap: 10px;
+    padding: 20px 0px;
+    display: flex;
+    flex-direction: column;
+        }
+        .password-length{
+            display: flex;
+            /* padding: 20px; */
+            padding-top: 20px ;
+            justify-content: space-between;
+        }
+        #generate-btn{
+            width: 100%;
+            /* padding: 20px 0; */
+            height: 30px;
+        }
+        button img{
+            width: 20px;
+    height: 80%;
+    z-index: 3;
+    background-color: #fff;
+        }
+        #generate-btn{
+            background-color: antiquewhite;
+            font-size: large;
+        }
+        #generate-btn:hover,#generate-btn:focus{
+            background-color: lightcoral;
+            font-size: large;
+        }
+    </style>
+</head>
+<body>
+    <h1>Password Generator</h1>
+    <div class="input-details"><input type="text" id="password-output"><button id="copy-btn"><img src="https://www.freeiconspng.com/thumbs/copy-icon/copy-icon-25.png" alt="copy_im.png"></button></div>
+    <div class="password-length"><span>Select Password length(**8-50 characters**)</span><span><input type="number" id="length" value="8"></span></div>
+    <div class="checkboxes">
+        <label>
+            <input type="checkbox" id="include-lowercase" checked> Include Lowercase
+        </label>
+        <label>
+            <input type="checkbox" id="include-uppercase"> Include Uppercase
+        </label>
+        <label>
+            <input type="checkbox" id="include-numbers"> Include Numbers
+        </label>
+        <label>
+            <input type="checkbox" id="include-symbols"> Include Symbols
+        </label>
+    </div>
+
+    <button id="generate-btn">Generate Password</button>
+
+    <script>
+        // Character sets for password
+const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const numbers = '0123456789';
+const symbols = '!@#$%^&*()_+[]{}|;:,.<>?';
+
+// Get elements from DOM
+const lengthInput = document.getElementById('length');
+const includeLowercase = document.getElementById('include-lowercase');
+const includeUppercase = document.getElementById('include-uppercase');
+const includeNumbers = document.getElementById('include-numbers');
+const includeSymbols = document.getElementById('include-symbols');
+const passwordOutput = document.getElementById('password-output');
+const generateBtn = document.getElementById('generate-btn');
+const copyBtn = document.getElementById('copy-btn');
+
+
+function generatePassword() {
+    console.log("enter");
+    
+    let length = parseInt(lengthInput.value);
+    let charset = '';
+    let password = '';
+
+    if (includeLowercase.checked) charset += lowercase;
+    if (includeUppercase.checked) charset += uppercase;
+    if (includeNumbers.checked) charset += numbers;
+    if (includeSymbols.checked) charset += symbols;
+
+    if (charset === '') {
+        alert('Please select at least one character type!');
+        return;
+    }
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset[randomIndex];
+    }
+
+    passwordOutput.value = password;
+}
+
+
+function copyToClipboard() {
+    passwordOutput.select();
+    document.execCommand('copy');
+    alert('Password copied to clipboard!');
+}
+
+generateBtn.addEventListener('click', generatePassword);
+copyBtn.addEventListener('click', copyToClipboard);
+
+    </script>
+
+</body>
+</html>
